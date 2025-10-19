@@ -26,6 +26,14 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
+                <div>
+                    <div className='font-roboto font-bold text-[26px] leading-[100%] tracking-[0%]'>
+                        Hello!
+                    </div>
+                    <div className='my-5 font-roboto font-normal text-[18px] leading-[100%] tracking-[0%]'>
+                        Sign Up to Get Started
+                    </div>
+                </div>
                 <div className='relative'>
                     <TextInput
                         placeholder="Full Name"
