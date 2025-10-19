@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bhe
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - bhe_net
+#  web:
+#    build: ../bakome_web
+#    networks:
+#        - bakome_net
+#    ports:
+#        - "3000:3000"
+#    environment:
+#        NODE_ENV: development
+
+  bhe_db_host:
+    image: mysql:8.0
+    container_name: bhe-mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: bhe
+      MYSQL_DATABASE: bhe_db
+      MYSQL_USER: bhe_db_user
+      MYSQL_PASSWORD: bhe
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - bhe_net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: bhe_phpmyadmin
+    platform: linux/amd64
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: bhe_db_host
+      PMA_USER: bhe_db_user
+      PMA_PASSWORD: bhe
+    networks:
+      - bhe_net
+
+networks:
+  bhe_net:
+    driver: bridge
+
+volumes:
+  db_data:
